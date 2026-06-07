@@ -1,0 +1,64 @@
+<div class="min-h-screen flex items-center justify-center bg-slate-950 px-4">
+  <div class="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl">
+    <h1 class="text-3xl font-bold text-slate-900">Đăng ký</h1>
+    <p class="mt-2 text-sm text-slate-500">Tạo tài khoản FoodEmolite mới</p>
+
+    <div class="mt-8 space-y-5">
+      <div>
+        <label class="text-sm font-medium text-slate-700">Username</label>
+        <input
+          class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-slate-900"
+          type="text"
+          [ngModel]="username()"
+          (ngModelChange)="username.set($event)"
+        />
+      </div>
+
+      <div>
+        <label class="text-sm font-medium text-slate-700">Email</label>
+        <input
+          class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-slate-900"
+          type="email"
+          [ngModel]="email()"
+          (ngModelChange)="email.set($event)"
+          (blur)="checkEmail()"
+        />
+
+        @if (isCheckingEmail()) {
+          <p class="mt-2 text-sm text-slate-500">Đang kiểm tra email...</p>
+        }
+      </div>
+
+      <div>
+        <label class="text-sm font-medium text-slate-700">Mật khẩu</label>
+        <input
+          class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-slate-900"
+          type="password"
+          [ngModel]="password()"
+          (ngModelChange)="password.set($event)"
+        />
+      </div>
+
+      @if (errorMessage()) {
+        <p class="text-sm text-red-500">{{ errorMessage() }}</p>
+      }
+
+      @if (successMessage()) {
+        <p class="text-sm text-green-600">{{ successMessage() }}</p>
+      }
+
+      <button
+        class="w-full rounded-xl bg-slate-900 py-3 font-semibold text-white disabled:opacity-60"
+        [disabled]="isLoading()"
+        (click)="register()"
+      >
+        {{ isLoading() ? 'Đang đăng ký...' : 'Đăng ký' }}
+      </button>
+
+      <p class="text-center text-sm text-slate-500">
+        Đã có tài khoản?
+        <a class="font-semibold text-slate-900" routerLink="/login">Đăng nhập</a>
+      </p>
+    </div>
+  </div>
+</div>
