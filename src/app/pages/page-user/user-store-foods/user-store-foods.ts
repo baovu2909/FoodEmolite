@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { StoreFoodService } from '../../../common/services/store-food.service';
 import { ToastService } from '../../../common/services/toast.service';
+import { OrderService } from '../../../common/services/order.service';
 import { StoreFoodResponse } from '../../../common/models/store-food.model';
 import { URL_ENDPOINT } from '../../../common/constants/url-endpoint';
 
@@ -27,12 +28,14 @@ export class PageUserStoreFoodsComponent {
     private readonly router = inject(Router);
     private readonly storeFoodService = inject(StoreFoodService);
     private readonly toastService = inject(ToastService);
+    private readonly orderService = inject(OrderService);
 
     storeRefCode = signal('');
     foods = signal<StoreFoodResponse[]>([]);
     cart = signal<CartItem[]>([]);
 
     loading = signal(false);
+    ordering = signal(false);
     isMobileCartOpen = signal(false);
 
     cartWidth = signal(380);
@@ -188,6 +191,40 @@ export class PageUserStoreFoodsComponent {
                     : item
             )
         );
+    }
+
+    createOrder(): void {
+        if (this.cart().length === 0 || this.ordering()) {
+            return;
+        }
+
+        this.ordering.set(true);
+
+        this.orderService.create({
+            storeRefCode: this.storeRefCode(),
+            note: null,
+            items: this.cart().map(item => ({
+                storeFoodId: item.food.id,
+                quantity: item.quantity
+            }))
+        }).subscribe({
+            next: response => {
+                this.ordering.set(false);
+
+                if (!response.isSuccess) {
+                    this.toastService.error(response.message);
+                    return;
+                }
+
+                this.toastService.success('Đặt đơn thành công');
+                this.cart.set([]);
+                this.closeMobileCart();
+            },
+            error: () => {
+                this.ordering.set(false);
+                this.toastService.error('Không thể đặt đơn');
+            }
+        });
     }
 
     openMobileCart(): void {

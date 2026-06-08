@@ -1,0 +1,105 @@
+<div class="fixed inset-0 z-50 bg-black/40" (click)="close()"></div>
+
+<div class="fixed inset-x-4 top-1/2 z-50 mx-auto max-w-3xl -translate-y-1/2 rounded-md bg-white shadow-xl">
+    <div class="flex items-center justify-between border-b border-gray-200 px-5 py-4">
+        <div>
+            <h2 class="text-lg font-semibold text-gray-900">
+                Thanh toán đơn hàng #{{ order().id }}
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-500">
+                Quét mã QR để thanh toán đúng số tiền
+            </p>
+        </div>
+
+        <button type="button" (click)="close()"
+            class="h-9 w-9 rounded-md text-gray-500 hover:bg-gray-100">
+            ✕
+        </button>
+    </div>
+
+    <div class="max-h-[75vh] overflow-y-auto p-5">
+        @if (loading()) {
+        <div class="py-10 text-center text-sm text-gray-500">
+            Đang tải thông tin thanh toán...
+        </div>
+        } @else {
+        @if (paymentInfo()) {
+        <div class="grid gap-5 md:grid-cols-[260px_1fr]">
+            <div class="rounded-md border border-gray-200 bg-gray-50 p-4">
+                <img [src]="paymentInfo()!.vietQrUrl"
+                    class="mx-auto h-56 w-56 rounded-md bg-white object-contain" />
+
+                <p class="mt-4 text-center text-lg font-bold text-gray-900">
+                    {{ formatCurrency(paymentInfo()!.amount) }}
+                </p>
+            </div>
+
+            <div class="space-y-4">
+                <div class="rounded-md border border-gray-200 p-4">
+                    <h3 class="text-sm font-semibold text-gray-900">
+                        Thông tin chuyển khoản
+                    </h3>
+
+                    <div class="mt-3 space-y-2 text-sm">
+                        <div class="flex justify-between gap-3">
+                            <span class="text-gray-500">Cửa hàng</span>
+                            <span class="text-right font-medium text-gray-900">
+                                {{ paymentInfo()!.storeName }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between gap-3">
+                            <span class="text-gray-500">Ngân hàng</span>
+                            <span class="text-right font-medium text-gray-900">
+                                {{ paymentInfo()!.bankName }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between gap-3">
+                            <span class="text-gray-500">Số tài khoản</span>
+                            <span class="text-right font-medium text-gray-900">
+                                {{ paymentInfo()!.accountNumber }}
+                            </span>
+                        </div>
+
+                        <div class="flex justify-between gap-3">
+                            <span class="text-gray-500">Chủ tài khoản</span>
+                            <span class="text-right font-medium text-gray-900">
+                                {{ paymentInfo()!.accountHolderName }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-md border border-gray-200 p-4">
+                    <h3 class="text-sm font-semibold text-gray-900">
+                        Danh sách món
+                    </h3>
+
+                    <div class="mt-3 space-y-2">
+                        @for (item of order().items; track item.id) {
+                        <div class="flex items-center justify-between gap-3 text-sm">
+                            <div class="min-w-0">
+                                <p class="truncate font-medium text-gray-900">
+                                 {{ item.foodName }}
+                                </p>
+
+                                <p class="mt-0.5 text-xs text-gray-500">
+                                    {{ item.quantity }} x {{ formatCurrency(item.unitPrice) }}
+                                </p>
+                            </div>
+
+                            <p class="shrink-0 font-semibold text-gray-900">
+                                {{ formatCurrency(item.totalPrice) }}
+                            </p>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+        }
+    </div>
+</div>

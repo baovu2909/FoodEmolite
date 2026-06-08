@@ -18,6 +18,14 @@ export const API_ENDPOINT = {
    PROFILE: {
     ME: 'profile/me',
     ACCOUNT_PROFILE: 'profile/account-profile',
-    BANK_ACCOUNTS: 'profile/bank-accounts'
+    BANK_ACCOUNTS: 'profile/bank-accounts',
+    STORE_PAYMENT: (storeRefCode: string, amount: number) => `profile/store-payment/${storeRefCode}?amount=${amount}`
+  },
+  ORDER: {
+    BASE: 'orders',
+    MY: 'orders/my',
+    DETAIL: (id: number) => `orders/${id}`,
+    STATUS: (id: number) => `orders/${id}/status`,
+    BY_STORE: (storeRefCode: string) => `orders/store/${storeRefCode}`
   }
 } as const;

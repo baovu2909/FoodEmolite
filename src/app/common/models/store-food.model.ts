@@ -2,6 +2,7 @@ export interface StoreFoodResponse {
   id: number;
   refCode: string;
   storeRefCode: string;
+  storeName: string;
   foodName: string;
   thumbnailUrl: string | null;
   description: string | null;

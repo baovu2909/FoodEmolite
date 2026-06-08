@@ -9,6 +9,7 @@ import {
   CreateAccountProfileRequest,
   CreateBankAccountRequest,
   MyProfileResponse,
+  StorePaymentInfoResponse,
   UpdateAccountProfileRequest,
   UpdateBankAccountRequest
 } from '../models/profile.model';
@@ -22,6 +23,15 @@ export class ProfileService {
   getMyProfile(): Observable<BaseResponse<MyProfileResponse>> {
     return this.apiService.get<BaseResponse<MyProfileResponse>>(
       API_ENDPOINT.PROFILE.ME
+    );
+  }
+
+  getStorePaymentInfo(
+    storeRefCode: string,
+    amount: number
+  ): Observable<BaseResponse<StorePaymentInfoResponse>> {
+    return this.apiService.get<BaseResponse<StorePaymentInfoResponse>>(
+      API_ENDPOINT.PROFILE.STORE_PAYMENT(storeRefCode, amount)
     );
   }
 

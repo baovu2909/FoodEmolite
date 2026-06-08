@@ -1,0 +1,64 @@
+import {
+    Component,
+    OnInit,
+    inject,
+    input,
+    output,
+    signal
+} from '@angular/core';
+import { OrderResponse } from '../../../../common/models/order.model';
+import { StorePaymentInfoResponse } from '../../../../common/models/profile.model';
+import { ProfileService } from '../../../../common/services/profile.service';
+import { ToastService } from '../../../../common/services/toast.service';
+
+@Component({
+    selector: 'app-user-order-payment-popup',
+    imports: [],
+    templateUrl: './user-order-payment-popup.html'
+})
+export class UserOrderPaymentPopupComponent implements OnInit {
+    private readonly profileService = inject(ProfileService);
+    private readonly toastService = inject(ToastService);
+
+    order = input.required<OrderResponse>();
+    closed = output<void>();
+
+    paymentInfo = signal<StorePaymentInfoResponse | null>(null);
+    loading = signal(false);
+
+    ngOnInit(): void {
+        this.loadPaymentInfo();
+    }
+
+    loadPaymentInfo(): void {
+        this.loading.set(true);
+
+        this.profileService.getStorePaymentInfo(
+            this.order().storeRefCode,
+            this.order().totalAmount
+        ).subscribe({
+            next: response => {
+                this.loading.set(false);
+
+                if (!response.isSuccess) {
+                    this.toastService.error(response.message);
+                    return;
+                }
+
+                this.paymentInfo.set(response.data);
+            },
+            error: () => {
+                this.loading.set(false);
+                this.toastService.error('Không tải được thông tin thanh toán');
+            }
+        });
+    }
+
+    close(): void {
+        this.closed.emit();
+    }
+
+    formatCurrency(value: number): string {
+        return `${value.toLocaleString('vi-VN')}đ`;
+    }
+}

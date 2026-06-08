@@ -7,6 +7,7 @@ export const URL_ENDPOINT = {
   AGENT: 'agent',
   AGENT_PROFILE: 'profile',
   AGENT_FOODS: 'foods',
+  AGENT_ORDERS: 'orders',
 
   USER: 'user',
   USER_STORES: 'stores',

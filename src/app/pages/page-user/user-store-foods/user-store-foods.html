@@ -40,7 +40,7 @@
                 <div class="hidden grid-cols-3 gap-3 sm:grid lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
                     @for (food of foods(); track food.id) {
                     <button type="button" (click)="addToCart(food)"
-                        class="group cursor-pointer overflow-hidden rounded-md border border-gray-200 bg-white text-left transition hover:border-gray-900 hover:shadow-sm">
+                        class="group cursor-pointer overflow-hidden rounded-md border border-gray-200 bg-white text-left transition hover:shadow-sm">
 
                         <div class="h-24 bg-gray-100">
                             @if (food.thumbnailUrl) {
@@ -194,9 +194,9 @@
                     </span>
                 </div>
 
-                <button type="button" disabled
-                    class="w-full cursor-not-allowed rounded-md bg-gray-900 px-4 py-3 text-sm font-semibold text-white opacity-50">
-                    Đặt đơn
+                <button type="button" [disabled]="cart().length === 0 || ordering()" (click)="createOrder()"
+                    class="w-full rounded-md bg-gray-900 px-4 py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
+                    {{ ordering() ? 'Đang đặt đơn...' : 'Đặt đơn' }}
                 </button>
             </div>
         </aside>
@@ -294,9 +294,9 @@
             </span>
         </div>
 
-        <button type="button" disabled
-            class="w-full cursor-not-allowed rounded-md bg-gray-900 px-4 py-3 text-sm font-semibold text-white opacity-50">
-            Đặt đơn
+        <button type="button" [disabled]="cart().length === 0 || ordering()" (click)="createOrder()"
+            class="w-full rounded-md bg-gray-900 px-4 py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
+            {{ ordering() ? 'Đang đặt đơn...' : 'Đặt đơn' }}
         </button>
     </div>
 </aside>

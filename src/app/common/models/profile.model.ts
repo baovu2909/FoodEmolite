@@ -73,3 +73,16 @@ export interface UpdateBankAccountRequest {
   accountHolderName: string;
   isDefault: boolean;
 }
+
+export interface StorePaymentInfoResponse {
+  storeId: number;
+  storeRefCode: string;
+  storeName: string;
+  bankAccountId: number;
+  bankName: string;
+  bankCode: string;
+  accountNumber: string;
+  accountHolderName: string;
+  amount: number;
+  vietQrUrl: string;
+}

@@ -53,7 +53,6 @@ export class PageAdminStoreFoodsComponent {
       key: 'thumbnailUrl',
       label: 'Ảnh',
       width: '90px',
-      align: 'center',
       type: 'image'
     },
     {
@@ -80,6 +79,11 @@ export class PageAdminStoreFoodsComponent {
       key: 'description',
       label: 'Mô tả',
       width: '220px'
+    },
+    {
+      key: 'storeName',
+      label: 'Cửa hàng',
+      width: '120px',
     },
     {
       key: 'isAvailable',
@@ -174,6 +178,7 @@ export class PageAdminStoreFoodsComponent {
       id: food.id,
       refCode: food.refCode,
       storeRefCode: food.storeRefCode,
+      storeName: food.storeName,
       thumbnailUrl: food.thumbnailUrl,
       foodName: food.foodName,
       price: this.formatCurrency(food.price),

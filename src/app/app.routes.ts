@@ -12,6 +12,8 @@ import { PageAgentFoodsComponent } from './pages/page-agent/agent-foods/agent-fo
 import { LayoutUserComponent } from './layouts/layout-user/layout-user';
 import { PageUserStoresComponent } from './pages/page-user/user-stores/user-stores';
 import { PageUserStoreFoodsComponent } from './pages/page-user/user-store-foods/user-store-foods';
+import { PageUserOrderHistoryComponent } from './pages/page-user/user-histories/user-histories';
+import { PageAgentOrdersComponent } from './pages/page-agent/agent-orders/agent-orders';
 
 export const routes: Routes = [
   {
@@ -76,6 +78,13 @@ export const routes: Routes = [
           title: 'Danh sách món ăn'
         }
       },
+      {
+        path: URL_ENDPOINT.AGENT_ORDERS,
+        component: PageAgentOrdersComponent,
+        data: {
+          title: 'Danh sách đơn hàng'
+        }
+      },
     ]
   },
 
@@ -99,13 +108,13 @@ export const routes: Routes = [
         path: `${URL_ENDPOINT.USER_STORE_FOODS}/:storeRefCode`,
         component: PageUserStoreFoodsComponent
       },
-      // {
-      //   path: URL_ENDPOINT.USER_HISTORY,
-      //   component: PageUserHistoryComponent,
-      //   data: {
-      //     title: 'Lịch sử'
-      //   }
-      // }
+      {
+        path: URL_ENDPOINT.USER_HISTORY,
+        component: PageUserOrderHistoryComponent,
+        data: {
+          title: 'Lịch sử'
+        }
+      }
     ]
   }
 ];
